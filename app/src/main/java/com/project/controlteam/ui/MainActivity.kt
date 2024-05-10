@@ -14,16 +14,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
 import com.project.controlteam.data.room.AppDatabase
 import com.project.controlteam.navigation.Graph
 import com.project.controlteam.repository.TeamRepository
 import com.project.controlteam.ui.theme.ControlTeamTheme
 import com.project.controlteam.viewmodel.SplashViewModel
 import com.project.controlteam.viewmodel.TeamListViewModel
-import com.project.controlteam.viewmodel.TeamViewModelFactory
+import com.project.controlteam.viewmodel.factory.TeamViewModelFactory
 
 class MainActivity : ComponentActivity() {
 
@@ -43,9 +41,6 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
 
-
-        val teamList = mutableListOf(0)
-
         setContent {
             ControlTeamTheme {
                 Scaffold {
@@ -56,7 +51,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
     }
 }
 

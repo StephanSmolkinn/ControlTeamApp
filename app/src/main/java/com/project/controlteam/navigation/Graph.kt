@@ -10,7 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,14 +20,14 @@ import com.project.controlteam.screens.additionteam.AddTeamScreen
 import com.project.controlteam.screens.hometeam.HomeTeamScreen
 import com.project.controlteam.screens.teams.TeamListScreen
 import com.project.controlteam.ui.navigationbar.NavBar
-import com.project.controlteam.viewmodel.TeamListEvent
-import com.project.controlteam.viewmodel.TeamListState
+import com.project.controlteam.viewmodel.TeamEvent
+import com.project.controlteam.viewmodel.TeamState
 
 @Composable
 fun Graph(
     navHostController: NavHostController = rememberNavController(),
-    state: TeamListState,
-    onEvent: (TeamListEvent) -> Unit
+    state: TeamState,
+    onEvent: (TeamEvent) -> Unit
 ) {
 
     val snackBarHostState = remember {

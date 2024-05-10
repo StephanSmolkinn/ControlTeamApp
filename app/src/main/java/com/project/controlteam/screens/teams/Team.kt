@@ -1,8 +1,6 @@
 package com.project.controlteam.screens.teams
 
-import androidx.compose.animation.scaleIn
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,8 +25,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.project.controlteam.data.model.Team
 import com.project.controlteam.navigation.constants_graph_root.Graph
-import com.project.controlteam.viewmodel.TeamListEvent
-import com.project.controlteam.viewmodel.TeamListState
+import com.project.controlteam.viewmodel.TeamEvent
+import com.project.controlteam.viewmodel.TeamState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -38,8 +36,8 @@ fun Team(
     snackbarHostState: SnackbarHostState,
     coroutineScope: CoroutineScope,
     navHostController: NavHostController,
-    state: TeamListState,
-    onEvent: (TeamListEvent) -> Unit
+    state: TeamState,
+    onEvent: (TeamEvent) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -79,7 +77,7 @@ fun Team(
 
             IconButton(
                 onClick = {
-                    onEvent(TeamListEvent.DeleteTeam(team))
+                    onEvent(TeamEvent.DeleteTeam(team))
                     coroutineScope.launch {
                         val snackBar = snackbarHostState.showSnackbar(
                             message = "The team has been deleted",
@@ -89,7 +87,7 @@ fun Team(
 
                         when(snackBar) {
                             SnackbarResult.ActionPerformed -> {
-                                onEvent(TeamListEvent.UnDeleteTeam(team))
+                                onEvent(TeamEvent.UnDeleteTeam(team))
                             }
 
                             else -> {  }

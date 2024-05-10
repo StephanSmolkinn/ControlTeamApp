@@ -3,7 +3,6 @@ package com.project.controlteam.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.controlteam.data.model.Team
-import com.project.controlteam.data.room.TeamDao
 import com.project.controlteam.repository.TeamRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,7 +10,6 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 class TeamListViewModel(
     private val teamRepository: TeamRepository
@@ -19,16 +17,16 @@ class TeamListViewModel(
 
     private val teams = teamRepository.getAllTeams()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
-    private val _state = MutableStateFlow(TeamListState())
+    private val _state = MutableStateFlow(TeamState())
     val state = combine(_state, teams) { state, teams ->
         state.copy(
             teams = teams
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TeamListState())
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TeamState())
 
-    fun onTeamListEvent(event: TeamListEvent) {
+    fun onTeamListEvent(event: TeamEvent) {
         when (event) {
-            TeamListEvent.AddTeam -> {
+            TeamEvent.AddTeam -> {
                 val teamTitle = state.value.teamTitle
                 val teamSport = state.value.teamSport
 
@@ -52,30 +50,29 @@ class TeamListViewModel(
                 }
             }
 
-            is TeamListEvent.DeleteTeam -> {
+            is TeamEvent.DeleteTeam -> {
                 viewModelScope.launch {
                     teamRepository.deleteTeam(event.team)
                 }
             }
 
-            is TeamListEvent.SetTeamSport -> {
+            is TeamEvent.SetTeamSport -> {
                 _state.update {
                     it.copy(teamSport = event.teamSport)
                 }
             }
 
-            is TeamListEvent.SetTeamTitle -> {
+            is TeamEvent.SetTeamTitle -> {
                 _state.update {
                     it.copy(teamTitle = event.teamTitle)
                 }
             }
 
-            is TeamListEvent.UnDeleteTeam -> {
+            is TeamEvent.UnDeleteTeam -> {
                 viewModelScope.launch {
                     teamRepository.insertTeam(event.team)
                 }
             }
-
         }
     }
 }

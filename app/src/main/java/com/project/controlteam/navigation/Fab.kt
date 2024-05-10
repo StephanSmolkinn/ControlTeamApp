@@ -7,11 +7,8 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.project.controlteam.navigation.constants_graph_root.Graph
-import com.project.controlteam.viewmodel.TeamListEvent
-import com.project.controlteam.viewmodel.TeamListState
 
 @Composable
 fun Fab(
