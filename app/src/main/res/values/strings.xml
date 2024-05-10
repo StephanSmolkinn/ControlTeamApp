@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ControlTeam</string>
+    <string name="empty_team_list">You have no team</string>
+</resources>
