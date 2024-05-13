@@ -11,15 +11,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.project.controlteam.navigation.constants_graph_root.Graph
 import com.project.controlteam.screens.additionteam.AddTeamScreen
 import com.project.controlteam.screens.hometeam.HomeTeamScreen
 import com.project.controlteam.screens.teams.TeamListScreen
-import com.project.controlteam.ui.navigationbar.NavBar
+import com.project.controlteam.ui.navigationbar.HOME_TEAM_ARGUMENT_KEY
 import com.project.controlteam.viewmodel.TeamEvent
 import com.project.controlteam.viewmodel.TeamState
 
@@ -39,20 +41,12 @@ fun Graph(
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination?.route
 
-    val navBarShow = destination?.let {
-        it !in listOf(Graph.TEAM_LIST, Graph.ADD_TEAM)
-    } ?: true
-
     val fabShow = destination?.let {
         it in Graph.TEAM_LIST
     } ?: false
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
-        bottomBar = {
-            if (navBarShow)
-                NavBar(navController = navHostController)
-        },
         floatingActionButton = {
             if (fabShow)
                 Fab(navController = navHostController)
@@ -80,7 +74,18 @@ fun Graph(
                     onEvent = onEvent
                 )
             }
-            composable(route = Graph.HOME_TEAM) { HomeTeamScreen() }
+            composable(
+                route = Graph.HOME_TEAM_NAV + "/{$HOME_TEAM_ARGUMENT_KEY}",
+                arguments = listOf(
+                    navArgument(HOME_TEAM_ARGUMENT_KEY) {
+                        type = NavType.IntType
+                    }
+                )
+            ) {
+                HomeTeamScreen(
+                    teamId = it.arguments?.getInt(HOME_TEAM_ARGUMENT_KEY)
+                )
+            }
         }
     }
 }

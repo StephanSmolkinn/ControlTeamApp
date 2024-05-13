@@ -1,5 +1,6 @@
 package com.project.controlteam.screens.additionteam
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -27,9 +30,11 @@ fun AddTeamScreen(
     onEvent: (TeamEvent) -> Unit
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
     ) {
         Spacer(modifier = Modifier.height(40.dp))
         OutlinedTextField(
@@ -55,7 +60,7 @@ fun AddTeamScreen(
         Button(
             onClick = {
                 onEvent(TeamEvent.AddTeam)
-                navController.navigate(Graph.TEAM_LIST)
+                navController.popBackStack()
             },
             modifier = Modifier
                 .fillMaxWidth()

@@ -1,10 +1,27 @@
 package com.project.controlteam.screens.hometeam
 
-import androidx.compose.material3.Text
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.project.controlteam.navigation.HomeNavGraph
+import com.project.controlteam.ui.navigationbar.NavBar
 
 @Composable
-fun HomeTeamScreen() {
-    Text(text = "Home team", textAlign = TextAlign.Center)
+fun HomeTeamScreen(
+    navController: NavHostController = rememberNavController(),
+    teamId: Int?
+) {
+    Scaffold(
+        bottomBar = { NavBar(navController = navController) }
+    ) {
+        HomeNavGraph(
+            navController = navController,
+            teamId = teamId,
+            modifier = Modifier.padding(it)
+        )
+    }
 }

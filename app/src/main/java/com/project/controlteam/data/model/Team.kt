@@ -1,12 +1,10 @@
 package com.project.controlteam.data.model
 
-import androidx.compose.runtime.Immutable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 import java.util.Date
 
-@Immutable
 @Entity
 data class Team (
     @PrimaryKey(autoGenerate = true)

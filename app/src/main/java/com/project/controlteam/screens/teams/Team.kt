@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.project.controlteam.data.model.Team
 import com.project.controlteam.navigation.constants_graph_root.Graph
+import com.project.controlteam.ui.navigationbar.NavigationBarItem
 import com.project.controlteam.viewmodel.TeamEvent
 import com.project.controlteam.viewmodel.TeamState
 import kotlinx.coroutines.CoroutineScope
@@ -43,7 +44,9 @@ fun Team(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 4.dp)
-            .clickable { navHostController.navigate(Graph.HOME_TEAM) }
+            .clickable {
+                navHostController.navigate(Graph.HOME_TEAM_NAV + "/${team.id}")
+            }
     ) {
         Row(
             modifier = Modifier

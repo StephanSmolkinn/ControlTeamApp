@@ -2,21 +2,22 @@ package com.project.controlteam.ui.navigationbar
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.Handyman
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.project.controlteam.navigation.constants_graph_root.Graph
 
+const val HOME_TEAM_ARGUMENT_KEY = "teamId"
+
 sealed class NavigationBarItem(
     val route: String,
     val title: String,
-    val icon: ImageVector
+    val icon: ImageVector,
 ) {
-    object HomeTeam : NavigationBarItem(
+     object HomeTeam : NavigationBarItem(
         route = Graph.HOME_TEAM,
         title = "Home",
-        icon = Icons.Default.Home
+        icon = Icons.Default.Home,
     )
 
     object Players : NavigationBarItem(
@@ -30,4 +31,13 @@ sealed class NavigationBarItem(
         title = "Manage",
         icon = Icons.Default.Build
     )
+
+    fun withArgs(vararg args: String): String {
+        return buildString {
+            append(route)
+            args.forEach {
+                append("/$it")
+            }
+        }
+    }
 }
