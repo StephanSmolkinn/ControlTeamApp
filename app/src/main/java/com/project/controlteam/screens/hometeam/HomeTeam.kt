@@ -9,50 +9,68 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.project.controlteam.viewmodel.events.PlayerEvent
+import com.project.controlteam.viewmodel.events.states.TeamState
+
 @Composable
-fun HomeTeam(teamId: Int?) {
+fun HomeTeam(
+    teamId: Int?,
+    state: TeamState,
+    onEvent: (PlayerEvent) -> Unit,
+) {
     Column(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         Surface(
-            color = Color.Transparent,
-            shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp),
+            color = MaterialTheme.colorScheme.primaryContainer,
+            shape = CircleShape,
             modifier = Modifier
                 .fillMaxWidth()
+                .fillMaxHeight()
                 .weight(1f)
+                .padding(16.dp)
         ) {
-            Text(
-                text = "Team $teamId",
-                textAlign = TextAlign.Center,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(vertical = 40.dp)
-            )
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = state.teamTitle,
+                    textAlign = TextAlign.Center,
+                    fontSize = 24.sp,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
         Surface(
-            color = Color.LightGray,
-            tonalElevation = 40.dp,
-            shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+            color = Color.Transparent,
+            shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .weight(5f)
+                .weight(4f)
         ) {
             Column {
                 Text(
                     text = "Finance",
                     textAlign = TextAlign.Start,
-                    color = Color.DarkGray,
                     fontSize = 22.sp,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -75,7 +93,6 @@ fun HomeTeam(teamId: Int?) {
                 Text(
                     text = "Analytics",
                     textAlign = TextAlign.Start,
-                    color = Color.DarkGray,
                     fontSize = 22.sp,
                     modifier = Modifier
                         .fillMaxWidth()

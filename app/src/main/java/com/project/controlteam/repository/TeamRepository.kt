@@ -11,4 +11,6 @@ class TeamRepository(private val teamDao: TeamDao) {
 
     fun getAllTeams() = teamDao.getAllTeams()
 
+    suspend fun getOneTeam(teamId: Int) = teamDao.getTeamById(teamId)
+
 }

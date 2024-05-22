@@ -1,4 +1,4 @@
-package com.project.controlteam.navigation
+package com.project.controlteam.screens.fabs
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -9,13 +9,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.project.controlteam.navigation.constants_graph_root.Graph
+import com.project.controlteam.viewmodel.events.TeamEvent
+import com.project.controlteam.viewmodel.events.states.TeamState
 
 @Composable
-fun Fab(
+fun FabTeam(
     navController: NavHostController,
+    state: TeamState,
+    onEvent: (TeamEvent) -> Unit
 ) {
     FloatingActionButton(
-        onClick = { navController.navigate(Graph.ADD_TEAM) },
+        onClick = {
+            onEvent(TeamEvent.SetTeamTitle(""))
+            onEvent(TeamEvent.SetTeamSport(""))
+            navController.navigate(Graph.ADD_TEAM)
+        },
         modifier = Modifier,
         shape = CircleShape
     ) {

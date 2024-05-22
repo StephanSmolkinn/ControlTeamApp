@@ -1,4 +1,4 @@
-package com.project.controlteam.viewmodel
+package com.project.controlteam.viewmodel.events
 
 import com.project.controlteam.data.model.Team
 
@@ -14,4 +14,7 @@ sealed interface TeamEvent {
 
     data class UnDeleteTeam(val team: Team) : TeamEvent
 
+    data class GetOneTeam(val teamId: Int) : TeamEvent
+
+    data class SetTeamId(val teamId: Int) : TeamEvent
 }

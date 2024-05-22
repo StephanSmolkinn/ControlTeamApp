@@ -8,20 +8,26 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.project.controlteam.navigation.HomeNavGraph
-import com.project.controlteam.ui.navigationbar.NavBar
+import com.project.controlteam.utils.PlayerStateTeamId
+import com.project.controlteam.viewmodel.events.TeamEvent
+import com.project.controlteam.viewmodel.events.states.TeamState
 
 @Composable
 fun HomeTeamScreen(
     navController: NavHostController = rememberNavController(),
-    teamId: Int?
+    teamId: Int?,
+    stateTeam: TeamState,
+    onEventTeam: (TeamEvent) -> Unit,
 ) {
-    Scaffold(
-        bottomBar = { NavBar(navController = navController) }
-    ) {
+    PlayerStateTeamId.teamId = teamId ?: -1
+
+    Scaffold {
         HomeNavGraph(
             navController = navController,
             teamId = teamId,
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(it),
+            stateTeam = stateTeam,
+            onEventTeam = onEventTeam,
         )
     }
 }

@@ -7,4 +7,5 @@ object Graph {
     const val ADD_TEAM = "add_team"
     const val PLAYERS = "players"
     const val MANAGE_TEAM = "manage_team"
+    const val ADD_PLAYER = "add_player"
 }

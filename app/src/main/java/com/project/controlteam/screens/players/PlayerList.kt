@@ -1,4 +1,4 @@
-package com.project.controlteam.screens.teams
+package com.project.controlteam.screens.players
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
@@ -16,49 +16,44 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import com.project.controlteam.viewmodel.events.TeamEvent
-import com.project.controlteam.viewmodel.events.states.TeamState
+import com.project.controlteam.viewmodel.events.PlayerEvent
+import com.project.controlteam.viewmodel.events.states.PlayerState
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TeamList(
+fun PlayerList(
     snackbarHostState: SnackbarHostState,
     coroutineScope: CoroutineScope,
-    navHostController: NavHostController,
-    state: TeamState,
-    onEvent: (TeamEvent) -> Unit
+    state: PlayerState,
+    onEvent: (PlayerEvent) -> Unit
 ) {
     LazyColumn(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         stickyHeader {
             Surface(
-                modifier = Modifier.fillParentMaxWidth(),
+                modifier = Modifier.fillParentMaxWidth()
             ) {
                 Column(modifier = Modifier.fillMaxWidth()) {
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
                     Text(
-                        text = "Teams",
+                        text = "Players",
                         textAlign = TextAlign.Center,
                         fontSize = 24.sp,
                         modifier = Modifier.fillMaxWidth()
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
                 }
             }
         }
-        items(state.teams, key = { it.id }) {
-            Team(
-                team = it,
-                snackbarHostState = snackbarHostState,
+        items(items = state.players, key = { it.id }) {
+            Player(
                 coroutineScope = coroutineScope,
-                navHostController = navHostController,
-                state = state,
-                onEvent = onEvent
+                snackbarHostState = snackbarHostState,
+                player = it,
+                onEvent = onEvent,
             )
         }
     }
-
 }

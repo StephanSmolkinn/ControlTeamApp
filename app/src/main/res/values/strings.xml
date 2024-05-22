@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ControlTeam</string>
     <string name="empty_team_list">You have no team</string>
+    <string name="empty_player_list">You have no players</string>
 </resources>

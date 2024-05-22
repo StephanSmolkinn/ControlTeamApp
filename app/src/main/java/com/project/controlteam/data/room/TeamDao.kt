@@ -19,4 +19,7 @@ interface TeamDao {
     @Query("SELECT * FROM team")
     fun getAllTeams() : Flow<List<Team>>
 
+    @Query("SELECT * FROM team WHERE id = :teamId")
+    suspend fun getTeamById(teamId: Int): Team
+
 }

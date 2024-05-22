@@ -1,6 +1,5 @@
-package com.project.controlteam.screens.additionteam
+package com.project.controlteam.screens.addition_screens
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,9 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.project.controlteam.navigation.constants_graph_root.Graph
-import com.project.controlteam.viewmodel.TeamEvent
-import com.project.controlteam.viewmodel.TeamState
+import com.project.controlteam.viewmodel.events.TeamEvent
+import com.project.controlteam.viewmodel.events.states.TeamState
 
 @Composable
 fun AddTeamScreen(

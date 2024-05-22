@@ -17,19 +17,19 @@ sealed class NavigationBarItem(
      object HomeTeam : NavigationBarItem(
         route = Graph.HOME_TEAM,
         title = "Home",
-        icon = Icons.Default.Home,
+        icon = Icons.Filled.Home,
     )
 
     object Players : NavigationBarItem(
         route = Graph.PLAYERS,
         title = "Players",
-        icon = Icons.Default.Person
+        icon = Icons.Filled.Person
     )
 
     object ManageTeam : NavigationBarItem(
         route = Graph.MANAGE_TEAM,
         title = "Manage",
-        icon = Icons.Default.Build
+        icon = Icons.Filled.Build
     )
 
     fun withArgs(vararg args: String): String {
