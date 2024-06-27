@@ -8,4 +8,8 @@ object Graph {
     const val PLAYERS = "players"
     const val MANAGE_TEAM = "manage_team"
     const val ADD_PLAYER = "add_player"
+    const val SINGLE_PLAYER_VIEW = "single_player_view"
+    const val TRAINING_PLAN = "training_plan"
+    const val ADD_TRAINING_PLAN = "add_training_plan"
+    const val FINANCE = "finance"
 }

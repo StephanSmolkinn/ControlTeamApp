@@ -13,28 +13,38 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.navArgument
+import com.project.controlteam.feature_team.presentation.common_components.fabs.FabPlayer
+import com.project.controlteam.navigation.constants_graph_root.ArgumentKey
 import com.project.controlteam.navigation.constants_graph_root.Graph
-import com.project.controlteam.screens.addition_screens.AddPlayerScreen
-import com.project.controlteam.screens.fabs.FabPlayer
-import com.project.controlteam.screens.hometeam.HomeTeam
-import com.project.controlteam.screens.manageteam.ManageTeamScreen
-import com.project.controlteam.screens.players.PlayersListScreen
+import com.project.controlteam.feature_team.presentation.screens.addition_screens.AddPlayerScreen
+import com.project.controlteam.feature_team.presentation.screens.finance.FinanceScreen
+import com.project.controlteam.feature_team.presentation.screens.hometeam.HomeTeam
+import com.project.controlteam.feature_team.presentation.screens.manageteam.ManageTeamScreen
+import com.project.controlteam.feature_team.presentation.screens.players.PlayersListScreen
+import com.project.controlteam.feature_team.presentation.screens.players.SinglePlayerView
+import com.project.controlteam.feature_training_plan.presentation.screens.training_plans.TrainingPlan
+import com.project.controlteam.feature_training_plan.presentation.screens.training_plans.TrainingPlansScreen
 import com.project.controlteam.ui.navigationbar.NavBar
-import com.project.controlteam.viewmodel.PlayerViewModel
-import com.project.controlteam.viewmodel.events.TeamEvent
-import com.project.controlteam.viewmodel.events.states.TeamState
+import com.project.controlteam.utils.PlayerStateTeamId
+import com.project.controlteam.feature_team.viewmodel.PlayerViewModel
+import com.project.controlteam.feature_training_plan.viewmodel.TrainingPlanViewModel
+import com.project.controlteam.feature_team.viewmodel.events.PlayerEvent
+import com.project.controlteam.feature_team.viewmodel.events.TeamEvent
+import com.project.controlteam.feature_team.viewmodel.states.TeamState
 
 @Composable
 fun HomeNavGraph(
     navController: NavHostController,
-    teamId: Int?,
     modifier: Modifier,
     stateTeam: TeamState,
     onEventTeam: (TeamEvent) -> Unit,
-    playerViewModel: PlayerViewModel = hiltViewModel()
+    playerViewModel: PlayerViewModel = hiltViewModel(),
+    trainingPlanViewModel: TrainingPlanViewModel = hiltViewModel()
 ) {
 
     val snackBarHostState = remember {
@@ -44,6 +54,7 @@ fun HomeNavGraph(
     val coroutineScope = rememberCoroutineScope()
 
     val statePlayer by playerViewModel.statePlayer.collectAsState()
+    val stateTrainingPlan by trainingPlanViewModel.stateTrainingPlan.collectAsState()
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination?.route
@@ -71,7 +82,8 @@ fun HomeNavGraph(
         bottomBar = {
             if (showNavBar)
                 NavBar(navController = navController)
-        }
+        },
+        modifier = modifier
     ) {
         NavHost(
             navController = navController,
@@ -80,14 +92,18 @@ fun HomeNavGraph(
             modifier = Modifier.padding(it)
         ) {
             composable(route = Graph.HOME_TEAM) {
+                playerViewModel.onPlayerEvent(PlayerEvent.GetSumOfSalary(PlayerStateTeamId.teamId))
+                onEventTeam(TeamEvent.GetFinanceTeam(PlayerStateTeamId.teamId))
                 HomeTeam(
-                    teamId = teamId,
-                    state = stateTeam,
-                    onEvent = playerViewModel::onPlayerEvent
+                    stateTeam = stateTeam,
+                    onEventTeam = onEventTeam,
+                    statePlayer = statePlayer,
+                    onEventPlayer = playerViewModel::onPlayerEvent
                 )
             }
             composable(route = Graph.PLAYERS) {
                 PlayersListScreen(
+                    navController = navController,
                     coroutineScope = coroutineScope,
                     stateTeam = stateTeam,
                     state = statePlayer,
@@ -95,12 +111,57 @@ fun HomeNavGraph(
                     snackbarHostState = snackBarHostState
                 )
             }
-            composable(route = Graph.MANAGE_TEAM) { ManageTeamScreen() }
+            composable(route = Graph.MANAGE_TEAM) {
+                ManageTeamScreen(
+                    navController = navController,
+                    state = statePlayer,
+                    onEvent = playerViewModel::onPlayerEvent,
+                    stateTeam = stateTeam,
+                    onEventTeam = onEventTeam
+                )
+            }
             composable(route = Graph.ADD_PLAYER) {
                 AddPlayerScreen(
                     navController = navController,
                     state = statePlayer,
                     onEvent = playerViewModel::onPlayerEvent
+                )
+            }
+            composable(
+                route = Graph.SINGLE_PLAYER_VIEW + "/{${ArgumentKey.PLAYER_ARGUMENT_KEY}}",
+                arguments = listOf(
+                    navArgument(ArgumentKey.PLAYER_ARGUMENT_KEY) {
+                        type = NavType.IntType
+                    }
+                )
+            ) {
+                SinglePlayerView(
+                    playerId = it.arguments?.getInt(ArgumentKey.PLAYER_ARGUMENT_KEY),
+                    navController = navController,
+                    state = statePlayer,
+                    onEvent = playerViewModel::onPlayerEvent
+                )
+            }
+            composable(route = Graph.TRAINING_PLAN) {
+                TrainingPlansScreen(
+                    navController = navController,
+                    stateTrainingPlan = stateTrainingPlan,
+                    onEvent = trainingPlanViewModel::onTrainingPlanEvent
+                )
+            }
+            composable(route = Graph.ADD_TRAINING_PLAN) {
+                TrainingPlan(
+                    navController = navController,
+                    stateTrainingPlan = stateTrainingPlan,
+                    onEvent = trainingPlanViewModel::onTrainingPlanEvent
+                )
+            }
+            composable(route = Graph.FINANCE) {
+                FinanceScreen(
+                    navController = navController,
+                    state = statePlayer,
+                    stateTeam = stateTeam,
+                    onEventTeam = onEventTeam
                 )
             }
         }

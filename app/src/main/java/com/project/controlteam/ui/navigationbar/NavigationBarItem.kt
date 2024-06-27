@@ -7,8 +7,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.project.controlteam.navigation.constants_graph_root.Graph
 
-const val HOME_TEAM_ARGUMENT_KEY = "teamId"
-
 sealed class NavigationBarItem(
     val route: String,
     val title: String,

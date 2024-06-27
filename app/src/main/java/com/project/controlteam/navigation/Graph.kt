@@ -19,20 +19,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.project.controlteam.navigation.constants_graph_root.ArgumentKey
 import com.project.controlteam.navigation.constants_graph_root.Graph
-import com.project.controlteam.screens.addition_screens.AddTeamScreen
-import com.project.controlteam.screens.fabs.FabTeam
-import com.project.controlteam.screens.hometeam.HomeTeamScreen
-import com.project.controlteam.screens.teams.TeamListScreen
-import com.project.controlteam.ui.navigationbar.HOME_TEAM_ARGUMENT_KEY
-import com.project.controlteam.viewmodel.TeamListViewModel
+import com.project.controlteam.feature_team.presentation.common_components.fabs.FabTeam
+import com.project.controlteam.feature_team.presentation.screens.addition_screens.AddTeamScreen
+import com.project.controlteam.feature_team.presentation.screens.hometeam.HomeTeamScreen
+import com.project.controlteam.feature_team.presentation.screens.teams.TeamListScreen
+import com.project.controlteam.utils.PlayerStateTeamId
+import com.project.controlteam.feature_team.viewmodel.TeamListViewModel
+import com.project.controlteam.feature_team.viewmodel.events.TeamEvent
 
 @Composable
 fun Graph(
     navHostController: NavHostController = rememberNavController(),
+    teamListViewModel: TeamListViewModel = hiltViewModel()
 ) {
-    val teamListViewModel = hiltViewModel<TeamListViewModel>()
     val teams by teamListViewModel.state.collectAsState()
+
     val snackBarHostState = remember {
         SnackbarHostState()
     }
@@ -80,15 +83,15 @@ fun Graph(
                 )
             }
             composable(
-                route = Graph.HOME_TEAM_NAV + "/{$HOME_TEAM_ARGUMENT_KEY}",
+                route = Graph.HOME_TEAM_NAV + "/{${ArgumentKey.HOME_TEAM_ARGUMENT_KEY}}",
                 arguments = listOf(
-                    navArgument(HOME_TEAM_ARGUMENT_KEY) {
+                    navArgument(ArgumentKey.HOME_TEAM_ARGUMENT_KEY) {
                         type = NavType.IntType
                     }
                 )
             ) {
                 HomeTeamScreen(
-                    teamId = it.arguments?.getInt(HOME_TEAM_ARGUMENT_KEY),
+                    teamId = it.arguments?.getInt(ArgumentKey.HOME_TEAM_ARGUMENT_KEY),
                     stateTeam = teams,
                     onEventTeam = teamListViewModel::onTeamListEvent,
                 )
