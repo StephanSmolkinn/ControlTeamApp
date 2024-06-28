@@ -1,22 +1,20 @@
 package com.project.controlteam.feature_team.viewmodel.repository
 
 import com.project.controlteam.feature_team.data.model.Team
-import com.project.controlteam.feature_team.data.data_source.TeamDao
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
 
-class TeamRepository(private val teamDao: TeamDao) {
+interface TeamRepository {
 
-    suspend fun insertTeam(team: Team) = withContext(Dispatchers.IO) { teamDao.upsertTeam(team) }
+    suspend fun insertTeam(team: Team)
 
-    suspend fun deleteTeam(team: Team) = withContext(Dispatchers.IO) { teamDao.deleteTeam(team) }
+    suspend fun deleteTeam(team: Team)
 
-    fun getAllTeams() = teamDao.getAllTeams()
+    fun getAllTeams(): Flow<List<Team>>
 
-    suspend fun getOneTeam(teamId: Int) = withContext(Dispatchers.IO) { teamDao.getTeamById(teamId) }
+    suspend fun getTeamById(teamId: Int): Team
 
-    suspend fun getFinance(teamId: Int) = withContext(Dispatchers.IO) { teamDao.getFinance(teamId) }
+    suspend fun getFinance(teamId: Int) : Double?
 
-    suspend fun setFinance(teamId: Int, finance: Double) = withContext(Dispatchers.IO) { teamDao.insertFinance(teamId, finance) }
+    suspend fun insertFinance(teamId: Int, finance: Double)
 
 }

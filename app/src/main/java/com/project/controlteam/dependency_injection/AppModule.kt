@@ -3,8 +3,11 @@ package com.project.controlteam.dependency_injection
 import android.app.Application
 import androidx.room.Room
 import com.project.controlteam.feature_team.data.data_source.AppDatabase
+import com.project.controlteam.feature_team.data.repository.PlayerRepositoryImpl
+import com.project.controlteam.feature_team.data.repository.TeamRepositoryImpl
 import com.project.controlteam.feature_team.viewmodel.repository.PlayerRepository
 import com.project.controlteam.feature_team.viewmodel.repository.TeamRepository
+import com.project.controlteam.feature_training_plan.data.repository.TrainingPlanRepositoryImpl
 import com.project.controlteam.feature_training_plan.viewmodel.repository.TrainingPlanRepository
 import dagger.Module
 import dagger.Provides
@@ -36,19 +39,19 @@ object AppModule {
     @Provides
     @Singleton
     fun provideTeamRepository(database: AppDatabase): TeamRepository {
-        return TeamRepository(database.teamDao)
+        return TeamRepositoryImpl(database.teamDao)
     }
 
     @Provides
     @Singleton
     fun providePlayerRepository(database: AppDatabase): PlayerRepository {
-        return PlayerRepository(database.playerDao)
+        return PlayerRepositoryImpl(database.playerDao)
     }
 
     @Provides
     @Singleton
     fun provideTrainingPlanRepository(database: AppDatabase): TrainingPlanRepository {
-        return TrainingPlanRepository(database.trainingPlanDao)
+        return TrainingPlanRepositoryImpl(database.trainingPlanDao)
     }
 
 }

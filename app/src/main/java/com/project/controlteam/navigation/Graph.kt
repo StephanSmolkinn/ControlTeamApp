@@ -25,16 +25,14 @@ import com.project.controlteam.feature_team.presentation.common_components.fabs.
 import com.project.controlteam.feature_team.presentation.screens.addition_screens.AddTeamScreen
 import com.project.controlteam.feature_team.presentation.screens.hometeam.HomeTeamScreen
 import com.project.controlteam.feature_team.presentation.screens.teams.TeamListScreen
-import com.project.controlteam.utils.PlayerStateTeamId
-import com.project.controlteam.feature_team.viewmodel.TeamListViewModel
-import com.project.controlteam.feature_team.viewmodel.events.TeamEvent
+import com.project.controlteam.feature_team.viewmodel.TeamViewModel
 
 @Composable
 fun Graph(
     navHostController: NavHostController = rememberNavController(),
-    teamListViewModel: TeamListViewModel = hiltViewModel()
+    teamViewModel: TeamViewModel = hiltViewModel()
 ) {
-    val teams by teamListViewModel.state.collectAsState()
+    val teams by teamViewModel.state.collectAsState()
 
     val snackBarHostState = remember {
         SnackbarHostState()
@@ -56,7 +54,7 @@ fun Graph(
                 FabTeam(
                     navController = navHostController,
                     state = teams,
-                    onEvent = teamListViewModel::onTeamListEvent
+                    onEvent = teamViewModel::onTeamListEvent
                 )
         },
         floatingActionButtonPosition = FabPosition.Center
@@ -72,14 +70,14 @@ fun Graph(
                     coroutineScope = coroutineScope,
                     navHostController = navHostController,
                     state = teams,
-                    onEvent = teamListViewModel::onTeamListEvent
+                    onEvent = teamViewModel::onTeamListEvent
                 )
             }
             composable(route = Graph.ADD_TEAM) {
                 AddTeamScreen(
                     navController = navHostController,
                     state = teams,
-                    onEvent = teamListViewModel::onTeamListEvent
+                    onEvent = teamViewModel::onTeamListEvent
                 )
             }
             composable(
@@ -93,7 +91,7 @@ fun Graph(
                 HomeTeamScreen(
                     teamId = it.arguments?.getInt(ArgumentKey.HOME_TEAM_ARGUMENT_KEY),
                     stateTeam = teams,
-                    onEventTeam = teamListViewModel::onTeamListEvent,
+                    onEventTeam = teamViewModel::onTeamListEvent,
                 )
             }
         }

@@ -3,16 +3,15 @@ package com.project.controlteam.feature_team.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.controlteam.feature_team.data.model.Team
-import com.project.controlteam.feature_team.viewmodel.repository.TeamRepository
+import com.project.controlteam.feature_team.data.repository.TeamRepositoryImpl
 import com.project.controlteam.utils.PlayerStateTeamId
 import com.project.controlteam.feature_team.viewmodel.events.TeamEvent
+import com.project.controlteam.feature_team.viewmodel.repository.TeamRepository
 import com.project.controlteam.feature_team.viewmodel.states.TeamState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -20,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TeamListViewModel @Inject constructor(
+class TeamViewModel @Inject constructor(
     private val teamRepository: TeamRepository
 ) : ViewModel() {
 
@@ -96,7 +95,7 @@ class TeamListViewModel @Inject constructor(
 
             is TeamEvent.GetOneTeam -> {
                 viewModelScope.launch {
-                    val team = teamRepository.getOneTeam(event.teamId)
+                    val team = teamRepository.getTeamById(event.teamId)
                     _state.update {
                         it.copy(
                             teamTitle = team.teamTitle,
@@ -153,7 +152,7 @@ class TeamListViewModel @Inject constructor(
                         "0.0".toDouble()
                     }
                     if (financeTeam != 0.0) {
-                        teamRepository.setFinance(PlayerStateTeamId.teamId, financeTeam)
+                        teamRepository.insertFinance(PlayerStateTeamId.teamId, financeTeam)
                     }
                 }
             }

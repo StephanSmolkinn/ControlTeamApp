@@ -3,9 +3,9 @@ package com.project.controlteam.feature_team.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.controlteam.feature_team.data.model.Player
-import com.project.controlteam.feature_team.viewmodel.repository.PlayerRepository
 import com.project.controlteam.utils.PlayerStateTeamId
 import com.project.controlteam.feature_team.viewmodel.events.PlayerEvent
+import com.project.controlteam.feature_team.viewmodel.repository.PlayerRepository
 import com.project.controlteam.feature_team.viewmodel.states.PlayerState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -60,7 +60,7 @@ class PlayerViewModel @Inject constructor(
                 )
 
                 viewModelScope.launch {
-                    playerRepository.insertPlayer(player)
+                    playerRepository.upsertPlayer(player)
                 }
 
                 _statePlayer.update {
@@ -106,13 +106,13 @@ class PlayerViewModel @Inject constructor(
 
             is PlayerEvent.UnDeletePlayer -> {
                 viewModelScope.launch {
-                    playerRepository.insertPlayer(event.player)
+                    playerRepository.upsertPlayer(event.player)
                 }
             }
 
             is PlayerEvent.GetOnePlayer -> {
                 viewModelScope.launch {
-                    val player = playerRepository.getOnePlayer(event.playerId)
+                    val player = playerRepository.getPlayerById(event.playerId)
                     _statePlayer.update {
                         it.copy(
                             playerName = player.playerName,
