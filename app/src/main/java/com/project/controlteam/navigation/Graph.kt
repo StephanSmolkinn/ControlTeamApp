@@ -19,13 +19,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.project.controlteam.feature_team.presentation.common_components.FabCustom
 import com.project.controlteam.navigation.constants_graph_root.ArgumentKey
 import com.project.controlteam.navigation.constants_graph_root.Graph
-import com.project.controlteam.feature_team.presentation.common_components.fabs.FabTeam
 import com.project.controlteam.feature_team.presentation.screens.addition_screens.AddTeamScreen
 import com.project.controlteam.feature_team.presentation.screens.hometeam.HomeTeamScreen
 import com.project.controlteam.feature_team.presentation.screens.teams.TeamListScreen
 import com.project.controlteam.feature_team.viewmodel.TeamViewModel
+import com.project.controlteam.feature_team.viewmodel.events.TeamEvent
 
 @Composable
 fun Graph(
@@ -51,10 +52,13 @@ fun Graph(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         floatingActionButton = {
             if (fabShow)
-                FabTeam(
-                    navController = navHostController,
-                    state = teams,
-                    onEvent = teamViewModel::onTeamListEvent
+                FabCustom(
+                    onEvent = {
+                        teamViewModel.onTeamEvent(TeamEvent.SetTeamTitle(""))
+                        teamViewModel.onTeamEvent(TeamEvent.SetTeamSport(""))
+                        navHostController.navigate(Graph.ADD_TEAM)
+                    },
+                    text = "Add team"
                 )
         },
         floatingActionButtonPosition = FabPosition.Center
@@ -70,18 +74,18 @@ fun Graph(
                     coroutineScope = coroutineScope,
                     navHostController = navHostController,
                     state = teams,
-                    onEvent = teamViewModel::onTeamListEvent
+                    onEvent = teamViewModel::onTeamEvent
                 )
             }
             composable(route = Graph.ADD_TEAM) {
                 AddTeamScreen(
                     navController = navHostController,
                     state = teams,
-                    onEvent = teamViewModel::onTeamListEvent
+                    onEvent = teamViewModel::onTeamEvent
                 )
             }
             composable(
-                route = Graph.HOME_TEAM_NAV + "/{${ArgumentKey.HOME_TEAM_ARGUMENT_KEY}}",
+                route = "home_team_nav/{${ArgumentKey.HOME_TEAM_ARGUMENT_KEY}}",
                 arguments = listOf(
                     navArgument(ArgumentKey.HOME_TEAM_ARGUMENT_KEY) {
                         type = NavType.IntType
@@ -89,9 +93,9 @@ fun Graph(
                 )
             ) {
                 HomeTeamScreen(
-                    teamId = it.arguments?.getInt(ArgumentKey.HOME_TEAM_ARGUMENT_KEY),
                     stateTeam = teams,
-                    onEventTeam = teamViewModel::onTeamListEvent,
+                    teamId = it.arguments?.getInt(ArgumentKey.HOME_TEAM_ARGUMENT_KEY),
+                    onEventTeam = teamViewModel::onTeamEvent
                 )
             }
         }

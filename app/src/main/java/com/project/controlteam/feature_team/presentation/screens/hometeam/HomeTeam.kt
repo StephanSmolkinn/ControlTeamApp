@@ -32,10 +32,9 @@ import com.project.controlteam.feature_team.viewmodel.states.TeamState
 
 @Composable
 fun HomeTeam(
+    teamId: Int?,
     stateTeam: TeamState,
-    onEventTeam: (TeamEvent) -> Unit,
     statePlayer: PlayerState,
-    onEventPlayer: (PlayerEvent) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Top,
@@ -56,7 +55,7 @@ fun HomeTeam(
                 modifier = Modifier.fillMaxWidth()
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Surface(
             color = Color.Transparent,
             shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
@@ -71,7 +70,10 @@ fun HomeTeam(
                     fontSize = 20.sp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 36.dp, start = 36.dp)
+                        .padding(start = 36.dp)
+                        .padding(top = 16.dp)
+                        .padding(end = 16.dp)
+                        .padding(bottom = 16.dp)
                 )
                 Text(
                     text = "Salary ${statePlayer.sumOfSalary}",
@@ -79,7 +81,10 @@ fun HomeTeam(
                     fontSize = 20.sp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 36.dp, start = 36.dp)
+                        .padding(start = 36.dp)
+                        .padding(top = 16.dp)
+                        .padding(end = 16.dp)
+                        .padding(bottom = 16.dp)
                 )
                 Divider(thickness = 1.dp, modifier = Modifier.padding(16.dp))
                 Text(
@@ -88,7 +93,10 @@ fun HomeTeam(
                     fontSize = 20.sp,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 36.dp, start = 36.dp)
+                        .padding(start = 36.dp)
+                        .padding(top = 16.dp)
+                        .padding(end = 16.dp)
+                        .padding(bottom = 16.dp)
                 )
                 Divider(thickness = 1.dp, modifier = Modifier.padding(16.dp))
             }

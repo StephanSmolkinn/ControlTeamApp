@@ -27,6 +27,8 @@ import com.project.controlteam.feature_team.data.model.Team
 import com.project.controlteam.navigation.constants_graph_root.Graph
 import com.project.controlteam.feature_team.viewmodel.events.TeamEvent
 import com.project.controlteam.feature_team.viewmodel.states.TeamState
+import com.project.controlteam.utils.PlayerStateTeamId
+import com.project.controlteam.utils.PlayerStateTeamId.teamId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -45,7 +47,10 @@ fun Team(
             .padding(horizontal = 16.dp, vertical = 4.dp)
             .clickable {
                 onEvent(TeamEvent.GetOneTeam(team.id))
-                navHostController.navigate(Graph.HOME_TEAM_NAV + "/${team.id}")
+                onEvent(TeamEvent.GetFinanceTeam(team.id))
+                onEvent(TeamEvent.GetFinanceTeam(team.id))
+                PlayerStateTeamId.teamId = team.id
+                navHostController.navigate(route = "home_team_nav/${team.id}")
             }
     ) {
         Row(

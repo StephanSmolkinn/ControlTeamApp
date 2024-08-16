@@ -12,16 +12,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,52 +43,80 @@ fun SinglePlayerView(
     onEvent: (PlayerEvent) -> Unit
 ) {
     Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        Text(
-            text = state.playerName,
-            fontSize = 24.sp,
-            textAlign = TextAlign.Justify,
-            overflow = TextOverflow.Ellipsis,
-        )
-        Spacer(modifier = Modifier.height(64.dp))
-        Text(
-            text = "Information",
-            fontSize = 24.sp,
-            textAlign = TextAlign.Justify,
-            overflow = TextOverflow.Ellipsis,
-        )
-        Spacer(modifier = Modifier.height(64.dp))
-        Text(
-            text = "Position ${state.playerPosition}",
-            fontSize = 20.sp,
-        )
-        Spacer(modifier = Modifier.height(48.dp))
-        Text(
-            text = "Shape ${state.playerShape}",
-            fontSize = 20.sp,
-        )
-        Spacer(modifier = Modifier.height(48.dp))
-        Text(
-            text = "Salary ${state.playerSalary}",
-            fontSize = 20.sp,
-        )
-        Spacer(modifier = Modifier.height(64.dp))
-        Box(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            contentAlignment = Alignment.Center,
+            verticalArrangement = Arrangement.Center
         ) {
-            IconButton(
-                onClick = {
-                    navController.popBackStack()
-                },
-            ) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+            Text(
+                text = state.playerName,
+                textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis,
+                fontSize = 24.sp,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Surface(
+            color = Color.Transparent,
+            shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(4f)
+        ) {
+            Column {
+                Text(
+                    text = "Position ${state.playerPosition}",
+                    textAlign = TextAlign.Start,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 36.dp)
+                        .padding(top = 16.dp)
+                        .padding(end = 16.dp)
+                        .padding(bottom = 16.dp)
+                )
+                Text(
+                    text = "Shape ${state.playerShape}",
+                    textAlign = TextAlign.Start,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 36.dp)
+                        .padding(top = 16.dp)
+                        .padding(end = 16.dp)
+                        .padding(bottom = 16.dp)
+                )
+                Divider(thickness = 1.dp, modifier = Modifier.padding(16.dp))
+                Text(
+                    text = "Salary ${state.playerSalary}",
+                    textAlign = TextAlign.Start,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 36.dp)
+                        .padding(top = 16.dp)
+                        .padding(end = 16.dp)
+                        .padding(bottom = 16.dp)
+                )
+                Divider(thickness = 1.dp, modifier = Modifier.padding(16.dp))
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    IconButton(
+                        onClick = {
+                            navController.popBackStack()
+                        },
+                    ) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                    }
+                }
             }
         }
     }

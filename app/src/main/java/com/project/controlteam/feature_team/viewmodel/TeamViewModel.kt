@@ -3,11 +3,10 @@ package com.project.controlteam.feature_team.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.controlteam.feature_team.data.model.Team
-import com.project.controlteam.feature_team.data.repository.TeamRepositoryImpl
-import com.project.controlteam.utils.PlayerStateTeamId
 import com.project.controlteam.feature_team.viewmodel.events.TeamEvent
 import com.project.controlteam.feature_team.viewmodel.repository.TeamRepository
 import com.project.controlteam.feature_team.viewmodel.states.TeamState
+import com.project.controlteam.utils.PlayerStateTeamId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +31,7 @@ class TeamViewModel @Inject constructor(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TeamState())
 
-    fun onTeamListEvent(event: TeamEvent) {
+    fun onTeamEvent(event: TeamEvent) {
         when (event) {
             TeamEvent.AddTeam -> {
 

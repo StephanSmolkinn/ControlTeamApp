@@ -3,11 +3,10 @@ package com.project.controlteam.feature_training_plan.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.controlteam.feature_training_plan.data.model.TrainingPlan
-import com.project.controlteam.feature_training_plan.data.repository.TrainingPlanRepositoryImpl
-import com.project.controlteam.utils.PlayerStateTeamId
 import com.project.controlteam.feature_training_plan.viewmodel.event.TrainingPlanEvent
 import com.project.controlteam.feature_training_plan.viewmodel.repository.TrainingPlanRepository
 import com.project.controlteam.feature_training_plan.viewmodel.state.TrainingPlanState
+import com.project.controlteam.utils.PlayerStateTeamId
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -49,11 +48,9 @@ class TrainingPlanViewModel @Inject constructor(
             }
 
             is TrainingPlanEvent.UpdateTrainingPlan -> {
-
                 viewModelScope.launch {
                     trainingPlanRepository.updateTrainingPlan(event.plan, event.trainingPlanId)
                 }
-
             }
 
             is TrainingPlanEvent.SetDay -> {

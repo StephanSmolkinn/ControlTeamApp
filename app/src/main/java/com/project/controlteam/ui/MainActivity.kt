@@ -28,12 +28,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ControlTeamTheme {
-                Scaffold {
-                    Surface(modifier = Modifier.padding(it)) {
-                        Graph()
-                    }
-                }
+                Graph()
             }
         }
     }
+
 }
